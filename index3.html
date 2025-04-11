@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HackerOS</title>
+  <style>
+    body {
+      background-color: #0000AA;
+      color: white;
+      font-family: "Courier New", Courier, monospace;
+      text-align: center;
+      padding: 30px;
+    }
+    .file, .button {
+      display: inline-block;
+      margin: 10px;
+      cursor: pointer;
+    }
+    .file:hover, .button:hover {
+      color: #00FF00;
+      text-decoration: underline;
+    }
+    iframe {
+      width: 80%;
+      height: 500px;
+      margin-top: 20px;
+      border: 2px solid lime;
+    }
+  </style>
+</head>
+<body>
+
+<h2>💻 HackerOS Fake Terminal</h2>
+<p>"A problem has been detected and Windows has been shut down to prevent damage..."</p>
+
+<h3>📁 My Files</h3>
+<div class="file" onclick="alert('TOP SECRET: MrHecker999 owns the internet.')">🔐 secrets.txt</div>
+<div class="file" onclick="alert('⚠️ virus.bat executed: Simulating chaos...')">🧨 virus.bat</div>
+<div class="file" onclick="alert('📁 Opening projects...')">📂 projects/</div>
+<div class="file" onclick="alert('📁 Opening tools...')">📂 tools/</div>
+
+<h3>💀 Virus Generator</h3>
+<div class="button" onclick="alert('✅ FakeVirus.exe created successfully!')">Generate Virus</div>
+
+<h3>🎮 Games</h3>
+<div class="button" onclick="loadGame('https://ubg100.github.io/games/slope/')">🌀 Play Slope</div>
+<div class="button" onclick="loadGame('https://ubg100.github.io/games/2048/')">🧠 Play 2048</div>
+<div class="button" onclick="loadGame('https://ubg100.github.io/games/shell-shockers/')">🥚 Play Shell Shockers</div>
+
+<iframe id="gameFrame" src=""></iframe>
+
+<h4>🎵 Meme Music</h4>
+<audio controls autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  function loadGame(url) {
+    document.getElementById("gameFrame").src = url;
+  }
+</script>
+
+</body>
+</html>
