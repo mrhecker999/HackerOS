@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HackerOS</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: lime;
+      font-family: monospace;
+      overflow: hidden;
+    }
+    #desktop {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 40px;
+    }
+    .icon {
+      width: 80px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .icon img {
+      width: 64px;
+      height: 64px;
+    }
+    .window {
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      background: #111;
+      border: 2px solid lime;
+      width: 600px;
+      height: 400px;
+      color: white;
+      display: none;
+      flex-direction: column;
+    }
+    .titlebar {
+      background: lime;
+      color: black;
+      padding: 5px;
+      cursor: move;
+    }
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 10px;
+      background: black;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    #matrixCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrixCanvas"></canvas>
+
+  <div id="desktop">
+    <div class="icon" onclick="openWindow('terminal')">
+      <img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png">
+      <div>Terminal</div>
+    </div>
+    <div class="icon" onclick="openWindow('games')">
+      <img src="https://cdn-icons-png.flaticon.com/512/8146/8146251.png">
+      <div>Games</div>
+    </div>
+    <div class="icon" onclick="openWindow('browser')">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png">
+      <div>Browser</div>
+    </div>
+  </div>
+
+  <div id="terminal" class="window">
+    <div class="titlebar">💻 Hacker Terminal</div>
+    <div class="content">
+      <p>> Welcome to HackerOS Terminal</p>
+      <p>> Type 'help' or just pretend 😎</p>
+      <p>> Access granted to classified systems...</p>
+    </div>
+  </div>
+
+  <div id="games" class="window">
+    <div class="titlebar">🎮 Games</div>
+    <div class="content">
+      <iframe src="https://slopegame.online/slope"></iframe>
+    </div>
+  </div>
+
+  <div id="browser" class="window">
+    <div class="titlebar">🌐 HackerBrowser</div>
+    <div class="content">
+      <iframe src="https://1v1.lol"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function openWindow(id) {
+      const win = document.getElementById(id);
+      win.style.display = 'flex';
+    }
+
+    // Matrix background
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const chars = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height || Math.random() > 0.95) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 35);
+  </script>
+</body>
+</html>
