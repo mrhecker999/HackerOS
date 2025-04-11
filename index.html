@@ -1,19 +1,182 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>HackerOS</title>
-    <style>
-      body {
-        background: black;
-        color: #00ff00;
-        font-family: monospace;
-        text-align: center;
-        margin-top: 20%;
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HackerOS</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      background: black;
+      color: lime;
+      overflow: hidden;
+    }
+    #desktop {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://i.imgur.com/HGz6LJm.jpeg') no-repeat center center;
+      background-size: cover;
+    }
+    .window {
+      border: 2px solid lime;
+      background: black;
+      position: absolute;
+      padding: 10px;
+      width: 400px;
+      height: 300px;
+      overflow: auto;
+      display: none;
+    }
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #111;
+      color: lime;
+      display: flex;
+      padding: 5px;
+    }
+    .start-button {
+      background: lime;
+      color: black;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .start-menu {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      background: #111;
+      border: 2px solid lime;
+      padding: 10px;
+      display: none;
+      z-index: 999;
+    }
+    .start-menu button {
+      background: black;
+      border: 1px solid lime;
+      color: lime;
+      margin: 5px 0;
+      width: 100%;
+      cursor: pointer;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    #bsod {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #0000aa;
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 20px;
+      z-index: 10000;
+    }
+  </style>
+</head>
+<body>
+  <div id="desktop"></div>
+
+  <div class="window" id="terminalWindow">
+    <b>Terminal</b><br>
+    <textarea id="terminal" style="width:100%; height:90%; background:black; color:lime;"></textarea>
+  </div>
+
+  <div class="window" id="notesWindow">
+    <b>Notes</b><br>
+    <textarea id="notes" style="width:100%; height:90%; background:black; color:lime;"></textarea>
+  </div>
+
+  <div class="window" id="proxyWindow">
+    <b>Proxy</b><br>
+    <iframe src="https://interstellar.cx" id="proxyFrame"></iframe>
+  </div>
+
+  <div class="window" id="fileWindow">
+    <b>File Manager</b><br>
+    <ul style="list-style:none; padding:0;">
+      <li>📁 HackerOS/</li>
+      <li>📄 notes.txt</li>
+      <li>📄 terminal.log</li>
+      <li>📄 bsod.exe</li>
+    </ul>
+  </div>
+
+  <div class="taskbar">
+    <button class="start-button" onclick="toggleStartMenu()">Start</button>
+  </div>
+
+  <div class="start-menu" id="startMenu">
+    <button onclick="showWindow('terminalWindow')">Terminal</button>
+    <button onclick="showWindow('notesWindow')">Notes</button>
+    <button onclick="showWindow('proxyWindow')">Proxy</button>
+    <button onclick="showWindow('fileWindow')">File Manager</button>
+    <button onclick="triggerBSOD()">Fake BSOD</button>
+  </div>
+
+  <div id="bsod">
+    <div>
+      <h1>:(</h1>
+      <p>Your PC ran into a problem and needs to restart.</p>
+      <p>We're just collecting some error info...</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleStartMenu() {
+      const menu = document.getElementById("startMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function showWindow(id) {
+      document.getElementById(id).style.display = "block";
+    }
+
+    function triggerBSOD() {
+      document.getElementById("bsod").style.display = "flex";
+      setTimeout(() => {
+        document.getElementById("bsod").style.display = "none";
+      }, 5000);
+    }
+
+    // Terminal commands
+    const terminal = document.getElementById("terminal");
+    terminal.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const lines = terminal.value.split("\n");
+        const last = lines[lines.length - 1].toLowerCase();
+        let response = "";
+
+        if (last === "help") response = "Commands: help, clear, echo [text], open [notes|proxy|files|bsod]";
+        else if (last === "clear") terminal.value = "";
+        else if (last.startsWith("echo ")) response = last.slice(5);
+        else if (last === "open notes") showWindow("notesWindow");
+        else if (last === "open proxy") showWindow("proxyWindow");
+        else if (last === "open files") showWindow("fileWindow");
+        else if (last === "open bsod") triggerBSOD();
+        else response = "Unknown command. Type 'help'.";
+
+        if (response) terminal.value += "\n" + response;
       }
-    </style>
-  </head>
-  <body>
-    <h1>👨‍💻 Welcome to HackerOS 👨‍💻</h1>
-    <p>This is your hacker-themed OS. More coming soon!</p>
-  </body>
+    });
+
+    // Save notes
+    const notes = document.getElementById("notes");
+    notes.value = localStorage.getItem("notes") || "";
+    notes.addEventListener("input", () => {
+      localStorage.setItem("notes", notes.value);
+    });
+  </script>
+</body>
 </html>
+
