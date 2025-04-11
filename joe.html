@@ -1,0 +1,21 @@
+<!-- 🔘 Slope Button (Put in your menu or desktop) -->
+<button onclick="openSlopeWindow()">🌀 Play Slope</button>
+
+<!-- 🪟 Slope Game Window (hidden by default) -->
+<div id="slopeWindow" class="window" style="display:none;">
+  <div class="titlebar">🎮 Slope <button style="float:right;" onclick="closeSlopeWindow()">❌</button></div>
+  <div class="content">
+    <iframe src="https://slopegame.online/slope" width="100%" height="500" style="border:none;"></iframe>
+  </div>
+</div>
+
+<!-- 🧠 Script to toggle Slope game -->
+<script>
+  function openSlopeWindow() {
+    document.getElementById('slopeWindow').style.display = 'block';
+  }
+
+  function closeSlopeWindow() {
+    document.getElementById('slopeWindow').style.display = 'none';
+  }
+</script>
