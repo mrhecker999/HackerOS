@@ -1,0 +1,27 @@
+<!-- Button -->
+<div class="button" onclick="toggleGameMenu()">🌀 Play Slope</div>
+
+<!-- Hidden Game Menu -->
+<div id="gameMenu" style="display:none; margin-top: 10px;">
+  <div class="button" onclick="loadGame('https://ubg98.github.io/slope/')">🌀 Slope</div>
+  <div class="button" onclick="loadGame('https://ubg98.github.io/2048/')">🧠 2048</div>
+  <div class="button" onclick="loadGame('https://ubg98.github.io/csgo-clicker/')">🔫 CS:GO Clicker</div>
+  <div class="button" onclick="loadGame('https://ubg98.github.io/moto-x3m/')">🏍️ Moto X3M</div>
+  <div class="button" onclick="loadGame('https://ubg98.github.io/bitlife/')">📱 BitLife</div>
+  <div class="button" onclick="loadGame('https://ubg98.github.io/geometrydash/')">🔺 Geometry Dash</div>
+</div>
+
+<!-- Game Frame -->
+<iframe id="gameFrame" src="" style="width: 100%; height: 600px; border: none;" allowfullscreen></iframe>
+
+<!-- JS -->
+<script>
+  function toggleGameMenu() {
+    const menu = document.getElementById('gameMenu');
+    menu.style.display = (menu.style.display === 'none') ? 'block' : 'none';
+  }
+
+  function loadGame(url) {
+    document.getElementById('gameFrame').src = url;
+  }
+</script>
