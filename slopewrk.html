@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HackerOS - Game Vault</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      padding: 20px;
+    }
+
+    .button {
+      background-color: #111;
+      border: 1px solid lime;
+      color: lime;
+      padding: 10px;
+      margin: 5px 0;
+      cursor: pointer;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .button:hover {
+      background-color: #0f0;
+      color: black;
+    }
+
+    #gameMenu {
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌀 HackerOS Game Vault</h1>
+
+  <div class="button" onclick="toggleGameMenu()">▶ Play Slope (and more)</div>
+
+  <div id="gameMenu">
+    <div class="button" onclick="loadGame('https://ubg98.github.io/slope/')">🌀 Slope</div>
+    <div class="button" onclick="loadGame('https://ubg98.github.io/2048/')">🧠 2048</div>
+    <div class="button" onclick="loadGame('https://ubg98.github.io/csgo-clicker/')">🔫 CS:GO Clicker</div>
+    <div class="button" onclick="loadGame('https://ubg98.github.io/moto-x3m/')">🏍️ Moto X3M</div>
+    <div class="button" onclick="loadGame('https://ubg98.github.io/bitlife/')">📱 BitLife</div>
+    <div class="button" onclick="loadGame('https://ubg98.github.io/geometrydash/')">🔺 Geometry Dash</div>
+  </div>
+
+  <iframe id="gameFrame" src=""></iframe>
+
+  <script>
+    function toggleGameMenu() {
+      const menu = document.getElementById('gameMenu');
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function loadGame(url) {
+      document.getElementById('gameFrame').src = url;
+    }
+  </script>
+
+</body>
+</html>
