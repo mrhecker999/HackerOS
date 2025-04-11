@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HackerOS</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #00ff00;
+      font-family: monospace;
+      overflow: hidden;
+    }
+
+    #matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #desktop {
+      position: relative;
+      z-index: 1;
+      padding: 20px;
+    }
+
+    .app {
+      display: inline-block;
+      text-align: center;
+      margin: 20px;
+      cursor: pointer;
+    }
+
+    .app img {
+      width: 64px;
+      height: 64px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .window {
+      position: absolute;
+      background: #111;
+      border: 2px solid #00ff00;
+      width: 400px;
+      height: 300px;
+      top: 100px;
+      left: 100px;
+      z-index: 10;
+      padding: 10px;
+    }
+
+    .window .titlebar {
+      display: flex;
+      justify-content: space-between;
+      background: #222;
+      padding: 5px;
+    }
+
+    .window .titlebar button {
+      background: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <div id="desktop">
+    <div class="app" onclick="openApp('games')">
+      <img src="https://cdn-icons-png.flaticon.com/512/2897/2897765.png" />
+      <span>Games</span>
+    </div>
+    <div class="app" onclick="openApp('terminal')">
+      <img src="https://cdn-icons-png.flaticon.com/512/2413/2413081.png" />
+      <span>Terminal</span>
+    </div>
+    <div class="app" onclick="openApp('browser')">
+      <img src="https://cdn-icons-png.flaticon.com/512/2942/2942935.png" />
+      <span>Proxy</span>
+    </div>
+    <div class="app" onclick="openApp('text')">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176363.png" />
+      <span>Notes</span>
+    </div>
+    <div class="app" onclick="alert('💥 Your PC has been DESTROYED! (not really)')">
+      <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" />
+      <span>Destroy PC</span>
+    </div>
+  </div>
+
+  <script>
+    function openApp(type) {
+      const win = document.createElement('div');
+      win.className = 'window';
+      win.innerHTML = `
+        <div class="titlebar">
+          <span>${type.toUpperCase()}</span>
+          <button onclick="this.closest('.window').remove()">X</button>
+        </div>
+        <div class="content">
+          ${type === 'games' ? '<iframe src="https://ubg44.github.io" width="100%" height="90%"></iframe>' : ''}
+          ${type === 'browser' ? '<iframe src="https://interstellar.cx" width="100%" height="90%"></iframe>' : ''}
+          ${type === 'terminal' ? '<pre>>> Welcome to HackerOS Terminal\n> _</pre>' : ''}
+          ${type === 'text' ? '<textarea style="width:100%; height:90%; background:black; color:#0f0; border:none;">Write your notes...</textarea>' : ''}
+        </div>`;
+      document.body.appendChild(win);
+    }
+
+    // Matrix effect
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = `${fontSize}px monospace`;
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
+  </script>
+</body>
+</html>
